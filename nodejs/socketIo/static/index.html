@@ -41,6 +41,18 @@
 		    });
 		    socket.on('changeStatus', function(msg){
 		    	console.log(msg);
+                try {
+                    const data = JSON.parse(msg);
+                    const point = data.point;
+                    const status = data.status;
+                    if (status === 'height') {
+	                    $('.btn[data-index = ' + point + ']').addClass('hover');
+                    } else {
+	                    $('.btn[data-index = ' + point + ']').removeClass('hover');
+                    }
+                } catch (e) {
+                	console.log(e);
+                }
             });
 		    $('form').submit(function(){
 			    socket.emit('chat message', $('#m').val());
@@ -48,7 +60,6 @@
 			    return false;
 		    });
 		    $('.btnArea').on('touchstart', '.btn', function(e) {
-		    	$(this).addClass('hover');
 		    	const point = $(this).attr('data-index');
 			    socket.emit('led-on', JSON.stringify({
                     point: point
@@ -56,7 +67,6 @@
             });
 
 		    $('.btnArea').on('touchend', '.btn', function() {
-			    $(this).removeClass('hover');
 			    const point = $(this).attr('data-index');
 			    socket.emit('led-off', JSON.stringify({
 				    point: point
