@@ -3,11 +3,11 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var rpio = require('rpio');
 
-rpio.open(7, rpio.OUTPUT);
+// rpio.open(7, rpio.OUTPUT);
 
 function on(point) {
 	// 打开 11 号针脚（GPIO17) 作为输出
-	// rpio.open(point, rpio.OUTPUT);
+	rpio.open(point, rpio.OUTPUT);
 
     // 指定 11 号针脚输出电流（HIGH）
 	rpio.write(point, rpio.HIGH);
@@ -15,7 +15,7 @@ function on(point) {
 
 function off(point) {
 	// 打开 11 号针脚（GPIO17) 作为输出
-	// rpio.open(point, rpio.OUTPUT);
+	rpio.open(point, rpio.OUTPUT);
 	// 指定 11 号针脚输出电流（HIGH）
 	rpio.write(point, rpio.LOW);
 }
