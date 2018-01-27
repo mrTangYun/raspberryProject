@@ -49,7 +49,7 @@
 		    });
 		    $('.btnArea').on('touchstart', '.btn', function(e) {
 		    	$(this).addClass('hover');
-		    	const point = $(this).text();
+		    	const point = $(this).attr('data-index');
 			    socket.emit('led-on', JSON.stringify({
                     point: point
                 }));
@@ -57,7 +57,7 @@
 
 		    $('.btnArea').on('touchend', '.btn', function() {
 			    $(this).removeClass('hover');
-			    const point = $(this).text();
+			    const point = $(this).attr('data-index');
 			    socket.emit('led-off', JSON.stringify({
 				    point: point
 			    }));
