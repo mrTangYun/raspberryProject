@@ -40,12 +40,11 @@
 			    $('#messages').append($('<li>').text(msg));
 		    });
 		    socket.on('changeStatus', function(msg){
-		    	console.log(msg);
                 try {
                     const data = JSON.parse(msg);
                     const point = data.point;
                     const status = data.status;
-                    if (status === 'height') {
+                    if (status === 'high') {
 	                    $('.btn[data-index = ' + point + ']').addClass('hover');
                     } else {
 	                    $('.btn[data-index = ' + point + ']').removeClass('hover');
@@ -59,14 +58,16 @@
 			    $('#m').val('');
 			    return false;
 		    });
-		    $('.btnArea').on('touchstart', '.btn', function(e) {
+		    $('.btnArea').on('touchstart', '.btn', function(event) {
+			    event.preventDefault();
 		    	const point = $(this).attr('data-index');
 			    socket.emit('led-on', JSON.stringify({
                     point: point
                 }));
             });
 
-		    $('.btnArea').on('touchend', '.btn', function() {
+		    $('.btnArea').on('touchend', '.btn', function(event) {
+			    event.preventDefault();
 			    const point = $(this).attr('data-index');
 			    socket.emit('led-off', JSON.stringify({
 				    point: point
