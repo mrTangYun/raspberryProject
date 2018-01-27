@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,minimal-ui">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
@@ -27,7 +27,7 @@
         min-width: 30px;
         flex-grow: 1;
       }
-      .btn:hover{
+      .btn.hover{
         background: red;
       }
     </style>
@@ -48,6 +48,7 @@
 			    return false;
 		    });
 		    $('.btnArea').on('touchstart', '.btn', function(e) {
+		    	$(this).addClass('hover');
 		    	const point = $(this).text();
 			    socket.emit('led-on', JSON.stringify({
                     point: point
@@ -55,6 +56,7 @@
             });
 
 		    $('.btnArea').on('touchend', '.btn', function() {
+			    $(this).removeClass('hover');
 			    const point = $(this).text();
 			    socket.emit('led-off', JSON.stringify({
 				    point: point
@@ -64,15 +66,15 @@
     </script>
   </head>
   <body>
+  <div class="btnArea">
+    <div class="btn" data-index="7"></div>
+    <div class="btn" data-index="11"></div>
+    <div class="btn" data-index="15"></div>
+    <div class="btn" data-index="29"></div>
+    <div class="btn" data-index="31"></div>
+  </div>
     <ul id="messages"></ul>
     <form action="">
-      <div class="btnArea">
-        <div class="btn">7</div>
-        <div class="btn">11</div>
-        <div class="btn">15</div>
-        <div class="btn">29</div>
-        <div class="btn">31</div>
-      </div>
       <div>
         <input id="m" autocomplete="off" /><button>Send</button>
       </div>
