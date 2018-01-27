@@ -36,7 +36,7 @@ io.on('connection', function(socket){
 		  const data = JSON.parse(dataStr);
 		  const point = data.point;
 		  on(point || 11);
-		  socket.emit('changeStatus', JSON.stringify({
+		  io.emit('changeStatus', JSON.stringify({
 			  errCode: 0,
 			  errText: '',
 			  point: point,
@@ -51,7 +51,7 @@ io.on('connection', function(socket){
 	    const data = JSON.parse(dataStr);
 	    const point = data.point;
 	    off(point || 11);
-	    socket.emit('changeStatus', JSON.stringify({
+	    io.emit('changeStatus', JSON.stringify({
 		    errCode: 0,
 		    errText: '',
 		    point: point,
