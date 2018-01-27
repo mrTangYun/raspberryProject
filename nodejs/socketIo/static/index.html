@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+      .btnArea{
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        background: #fff;
+      }
+      .btn{
+        border: 1px solid #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 600px;
+        min-width: 30px;
+        flex-grow: 1;
+      }
+      .btn:hover{
+        background: red;
+      }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+	    $(function () {
+		    var socket = io();
+		    socket.on('chat message', function(msg){
+			    $('#messages').append($('<li>').text(msg));
+		    });
+		    $('form').submit(function(){
+			    socket.emit('chat message', $('#m').val());
+			    $('#m').val('');
+			    return false;
+		    });
+		    $('.btnArea').on('touchstart', '.btn', function(e) {
+		    	const point = $(this).text();
+			    socket.emit('led-on', JSON.stringify({
+                    point: point
+                }));
+            });
+
+		    $('.btnArea').on('touchend', '.btn', function() {
+			    const point = $(this).text();
+			    socket.emit('led-off', JSON.stringify({
+				    point: point
+			    }));
+		    })
+	    });
+    </script>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form action="">
+      <div class="btnArea">
+        <div class="btn">1</div>
+        <div class="btn">2</div>
+        <div class="btn">3</div>
+        <div class="btn">4</div>
+        <div class="btn">5</div>
+        <div class="btn">6</div>
+      </div>
+      <div>
+        <input id="m" autocomplete="off" /><button>Send</button>
+      </div>
+    </form>
+  </body>
+</html>
