@@ -121,6 +121,7 @@ export default class LircContainer extends Component {
 						}}
 						className="arrowArea"
 					    onClick={this.clickArrowAreaHandler}
+
 					/>
 					<div
 						className="btn_enter"
