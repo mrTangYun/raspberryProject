@@ -12,6 +12,7 @@ import {
 } from 'react-router-dom'
 import './css.css';
 import io from 'socket.io-client';
+import AlloyFinger from '../utils/AlloyFinger';
 
 function calAngle(start,end){
 	const diff_x = end.x - start.x,
@@ -32,12 +33,26 @@ export default class LircContainer extends Component {
 		super();
 		this.clickArrowAreaHandler = this.clickArrowAreaHandler.bind(this);
 		this.clickKeyHandler = this.clickKeyHandler.bind(this);
+		this.onSwipe = this.onSwipe.bind(this);
+		this.onTap = this.onTap.bind(this);
 	}
 
 	clickKeyHandler(key) {
 		this.socket && this.socket.emit('KEY_PRESS', JSON.stringify({
 			key_type: key
 		}));
+	}
+
+	onSwipe(evt) {
+		const direction = evt.direction.toLowerCase();
+		if (['up', 'down', 'left', 'right'].some(function (item) {
+			return item === direction;
+			})) {
+			this.clickKeyHandler(direction);
+		}
+	}
+	onTap() {
+		this.clickKeyHandler('enter');
 	}
 
 	clickArrowAreaHandler(e) {
@@ -74,7 +89,7 @@ export default class LircContainer extends Component {
 
 
 	componentDidMount() {
-		this.arrowR = this.arrowArea.clientWidth / 2;
+		// this.arrowR = this.arrowArea.clientWidth / 2;
 		this.socket = io('/');
 	}
 
@@ -112,24 +127,11 @@ export default class LircContainer extends Component {
 						主页
 					</div>
 				</div>
-
-
-				<div className="arrowAreaAndEnder">
-					<div
-						ref = {node => {
-							this.arrowArea = node;
-						}}
-						className="arrowArea"
-					    onClick={this.clickArrowAreaHandler}
-					/>
-					<div
-						className="btn_enter"
-						onClick={(e) => {
-							e.preventDefault();
-							this.clickKeyHandler('enter');
-						}}
-					/>
-				</div>
+						<AlloyFinger
+							onTap={this.onTap}
+							onSwipe={this.onSwipe}>
+					<div className="AlloyFingerAREA"/>
+			</AlloyFinger>
 			</div>
 		);
 	}

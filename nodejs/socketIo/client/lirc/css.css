@@ -56,3 +56,14 @@
 .arrowAreaAndEnder{
     position: relative;
 }
+
+.AlloyFingerAREA{
+    width: 18em;
+    height: 18em;
+    border-radius: 50%;
+    background: yellowgreen;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
