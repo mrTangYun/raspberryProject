@@ -14814,7 +14814,7 @@ var _homepage = __webpack_require__(180);
 
 var _homepage2 = _interopRequireDefault(_homepage);
 
-__webpack_require__(461);
+__webpack_require__(462);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48607,6 +48607,10 @@ var _socket = __webpack_require__(440);
 
 var _socket2 = _interopRequireDefault(_socket);
 
+var _AlloyFinger = __webpack_require__(461);
+
+var _AlloyFinger2 = _interopRequireDefault(_AlloyFinger);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -48643,6 +48647,8 @@ var LircContainer = function (_Component) {
 
 		_this.clickArrowAreaHandler = _this.clickArrowAreaHandler.bind(_this);
 		_this.clickKeyHandler = _this.clickKeyHandler.bind(_this);
+		_this.onSwipe = _this.onSwipe.bind(_this);
+		_this.onTap = _this.onTap.bind(_this);
 		return _this;
 	}
 
@@ -48652,6 +48658,21 @@ var LircContainer = function (_Component) {
 			this.socket && this.socket.emit('KEY_PRESS', JSON.stringify({
 				key_type: key
 			}));
+		}
+	}, {
+		key: 'onSwipe',
+		value: function onSwipe(evt) {
+			var direction = evt.direction.toLowerCase();
+			if (['up', 'down', 'left', 'right'].some(function (item) {
+				return item === direction;
+			})) {
+				this.clickKeyHandler(direction);
+			}
+		}
+	}, {
+		key: 'onTap',
+		value: function onTap() {
+			this.clickKeyHandler('enter');
 		}
 	}, {
 		key: 'clickArrowAreaHandler',
@@ -48685,7 +48706,7 @@ var LircContainer = function (_Component) {
 	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			this.arrowR = this.arrowArea.clientWidth / 2;
+			// this.arrowR = this.arrowArea.clientWidth / 2;
 			this.socket = (0, _socket2.default)('/');
 		}
 	}, {
@@ -48738,22 +48759,11 @@ var LircContainer = function (_Component) {
 					)
 				),
 				_react2.default.createElement(
-					'div',
-					{ className: 'arrowAreaAndEnder' },
-					_react2.default.createElement('div', {
-						ref: function ref(node) {
-							_this2.arrowArea = node;
-						},
-						className: 'arrowArea',
-						onClick: this.clickArrowAreaHandler
-					}),
-					_react2.default.createElement('div', {
-						className: 'btn_enter',
-						onClick: function onClick(e) {
-							e.preventDefault();
-							_this2.clickKeyHandler('enter');
-						}
-					})
+					_AlloyFinger2.default,
+					{
+						onTap: this.onTap,
+						onSwipe: this.onSwipe },
+					_react2.default.createElement('div', { className: 'AlloyFingerAREA' })
 				)
 			);
 		}
@@ -48804,7 +48814,7 @@ exports = module.exports = __webpack_require__(154)(false);
 
 
 // module
-exports.push([module.i, ".lirc-outer{\n    background: red;\n    display: flex;\n    flex-direction: column;\n    flex: 1;\n    width: 100%;\n}\n\n.powers{\n    display: flex;\n    flex-direction: row;\n}\n\n.btn_single{\n    width: 5em;\n    height: 5em;\n    border-radius: 50%;\n    background: red;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.backAndHome{\n    display: flex;\n    flex-direction: row;\n}\n.arrowArea{\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n}\n.btn_enter{\n    width: 7em;\n    height: 7em;\n    border-radius: 50%;\n    background: blue;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n}\n\n.arrowArea{\n    width: 20em;\n    height: 20em;\n    border-radius: 50%;\n    background: yellowgreen;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.arrowAreaAndEnder{\n    position: relative;\n}", ""]);
+exports.push([module.i, ".lirc-outer{\n    background: red;\n    display: flex;\n    flex-direction: column;\n    flex: 1;\n    width: 100%;\n}\n\n.powers{\n    display: flex;\n    flex-direction: row;\n}\n\n.btn_single{\n    width: 5em;\n    height: 5em;\n    border-radius: 50%;\n    background: red;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.backAndHome{\n    display: flex;\n    flex-direction: row;\n}\n.arrowArea{\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n}\n.btn_enter{\n    width: 7em;\n    height: 7em;\n    border-radius: 50%;\n    background: blue;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n}\n\n.arrowArea{\n    width: 20em;\n    height: 20em;\n    border-radius: 50%;\n    background: yellowgreen;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.arrowAreaAndEnder{\n    position: relative;\n}\n\n.AlloyFingerAREA{\n    width: 18em;\n    height: 18em;\n    border-radius: 50%;\n    background: yellowgreen;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n}", ""]);
 
 // exports
 
@@ -52046,10 +52056,297 @@ Backoff.prototype.setJitter = function (jitter) {
 /* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* AlloyFinger v0.1.0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * By dntzhang
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Reedited by nemoliao
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Github: https://github.com/AlloyTeam/AlloyFinger
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+var AlloyFinger = function (_Component) {
+	_inherits(AlloyFinger, _Component);
+
+	function AlloyFinger(props) {
+		_classCallCheck(this, AlloyFinger);
+
+		var _this = _possibleConstructorReturn(this, (AlloyFinger.__proto__ || Object.getPrototypeOf(AlloyFinger)).call(this, props));
+
+		_this.preV = { x: null, y: null };
+		_this.pinchStartLen = null;
+		_this.scale = 1;
+		_this.isDoubleTap = false;
+		_this.delta = null;
+		_this.last = null;
+		_this.now = null;
+		_this.end = null;
+		_this.multiTouch = false;
+		_this.tapTimeout = null;
+		_this.longTapTimeout = null;
+		_this.singleTapTimeout = null;
+		_this.swipeTimeout = null;
+		_this.x1 = _this.x2 = _this.y1 = _this.y2 = null;
+		_this.preTapPosition = { x: null, y: null };
+
+		// Disable taps after longTap
+		_this.afterLongTap = false;
+		_this.afterLongTapTimeout = null;
+		return _this;
+	}
+
+	_createClass(AlloyFinger, [{
+		key: 'getLen',
+		value: function getLen(v) {
+			return Math.sqrt(v.x * v.x + v.y * v.y);
+		}
+	}, {
+		key: 'dot',
+		value: function dot(v1, v2) {
+			return v1.x * v2.x + v1.y * v2.y;
+		}
+	}, {
+		key: 'getAngle',
+		value: function getAngle(v1, v2) {
+			var mr = this.getLen(v1) * this.getLen(v2);
+			if (mr === 0) return 0;
+			var r = this.dot(v1, v2) / mr;
+			if (r > 1) r = 1;
+			return Math.acos(r);
+		}
+	}, {
+		key: 'cross',
+		value: function cross(v1, v2) {
+			return v1.x * v2.y - v2.x * v1.y;
+		}
+	}, {
+		key: 'getRotateAngle',
+		value: function getRotateAngle(v1, v2) {
+			var angle = this.getAngle(v1, v2);
+			if (this.cross(v1, v2) > 0) {
+				angle *= -1;
+			}
+
+			return angle * 180 / Math.PI;
+		}
+	}, {
+		key: '_resetState',
+		value: function _resetState() {
+			this.setState({
+				x: null,
+				y: null,
+				swiping: false,
+				start: 0
+			});
+		}
+	}, {
+		key: '_emitEvent',
+		value: function _emitEvent(name) {
+			if (this.props[name]) {
+				var _props;
+
+				for (var _len = arguments.length, arg = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+					arg[_key - 1] = arguments[_key];
+				}
+
+				(_props = this.props)[name].apply(_props, arg);
+			}
+		}
+	}, {
+		key: '_handleTouchStart',
+		value: function _handleTouchStart(evt) {
+			var _this2 = this;
+
+			if (!evt.touches) return;
+			this.now = Date.now();
+			this.x1 = evt.touches[0].pageX;
+			this.y1 = evt.touches[0].pageY;
+			this.delta = this.now - (this.last || this.now);
+			if (this.preTapPosition.x !== null) {
+				this.isDoubleTap = this.delta > 0 && this.delta <= 250 && Math.abs(this.preTapPosition.x - this.x1) < 30 && Math.abs(this.preTapPosition.y - this.y1) < 30;
+			}
+			this.preTapPosition.x = this.x1;
+			this.preTapPosition.y = this.y1;
+			this.last = this.now;
+			var preV = this.preV,
+			    len = evt.touches.length;
+
+			if (len > 1) {
+				this._cancelLongTap();
+				this._cancelSingleTap();
+				var v = { x: evt.touches[1].pageX - this.x1, y: evt.touches[1].pageY - this.y1 };
+				preV.x = v.x;
+				preV.y = v.y;
+				this.pinchStartLen = this.getLen(preV);
+				this._emitEvent('onMultipointStart', evt);
+			}
+			this.longTapTimeout = setTimeout(function () {
+				_this2._emitEvent('onLongTap', evt);
+				_this2.afterLongTap = true;
+				_this2.afterLongTapTimeout = setTimeout(function () {
+					_this2.afterLongTap = false;
+				}, 1000);
+			}, 750);
+		}
+	}, {
+		key: '_handleTouchMove',
+		value: function _handleTouchMove(evt) {
+			var preV = this.preV,
+			    len = evt.touches.length,
+			    currentX = evt.touches[0].pageX,
+			    currentY = evt.touches[0].pageY;
+			this.isDoubleTap = false;
+			if (len > 1) {
+				var v = { x: evt.touches[1].pageX - currentX, y: evt.touches[1].pageY - currentY };
+				if (preV.x !== null) {
+					if (this.pinchStartLen > 0) {
+						evt.center = {
+							x: (evt.touches[1].pageX + currentX) / 2,
+							y: (evt.touches[1].pageY + currentY) / 2
+						};
+						evt.scale = this.getLen(v) / this.pinchStartLen;
+						this._emitEvent('onPinch', evt);
+					}
+					evt.angle = this.getRotateAngle(v, preV);
+					this._emitEvent('onRotate', evt);
+				}
+				preV.x = v.x;
+				preV.y = v.y;
+				this.multiTouch = true;
+			} else {
+				if (this.x2 !== null) {
+					evt.deltaX = currentX - this.x2;
+					evt.deltaY = currentY - this.y2;
+				} else {
+					evt.deltaX = 0;
+					evt.deltaY = 0;
+				}
+				this._emitEvent('onPressMove', evt);
+			}
+			this._cancelLongTap();
+			this.x2 = currentX;
+			this.y2 = currentY;
+
+			if (len > 1) {
+				evt.preventDefault();
+			}
+		}
+	}, {
+		key: '_handleTouchCancel',
+		value: function _handleTouchCancel() {
+			clearInterval(this.singleTapTimeout);
+			clearInterval(this.tapTimeout);
+			clearInterval(this.longTapTimeout);
+			clearInterval(this.swipeTimeout);
+		}
+	}, {
+		key: '_handleTouchEnd',
+		value: function _handleTouchEnd(evt) {
+			var _this3 = this;
+
+			this.end = Date.now();
+			this._cancelLongTap();
+
+			if (evt.touches.length < 2) {
+				this._emitEvent('onMultipointEnd', evt);
+			}
+
+			evt.origin = [this.x1, this.y1];
+			if (this.multiTouch === false) {
+				if (this.x2 && Math.abs(this.x1 - this.x2) > 30 || this.y2 && Math.abs(this.preV.y - this.y2) > 30) {
+					evt.direction = this._swipeDirection(this.x1, this.x2, this.y1, this.y2);
+					evt.distance = Math.abs(this.x1 - this.x2);
+					this.swipeTimeout = setTimeout(function () {
+						_this3._emitEvent('onSwipe', evt);
+					}, 0);
+				} else {
+					if (this.afterLongTap) {
+						clearTimeout(this.afterLongTapTimeout);
+						this.afterLongTap = false;
+					} else {
+						this.tapTimeout = setTimeout(function () {
+							_this3._emitEvent('onTap', evt);
+							if (_this3.isDoubleTap) {
+								_this3._emitEvent('onDoubleTap', evt);
+								clearTimeout(_this3.singleTapTimeout);
+								_this3.isDoubleTap = false;
+							} else {
+								_this3.singleTapTimeout = setTimeout(function () {
+									_this3._emitEvent('onSingleTap', evt);
+								}, 250);
+							}
+						}, 0);
+					}
+				}
+			}
+
+			this.preV.x = 0;
+			this.preV.y = 0;
+			this.scale = 1;
+			this.pinchStartLen = null;
+			this.x1 = this.x2 = this.y1 = this.y2 = null;
+			this.multiTouch = false;
+		}
+	}, {
+		key: '_cancelLongTap',
+		value: function _cancelLongTap() {
+			clearTimeout(this.longTapTimeout);
+		}
+	}, {
+		key: '_cancelSingleTap',
+		value: function _cancelSingleTap() {
+			clearTimeout(this.singleTapTimeout);
+		}
+	}, {
+		key: '_swipeDirection',
+		value: function _swipeDirection(x1, x2, y1, y2) {
+			if (Math.abs(x1 - x2) > 80 || this.end - this.now < 250) {
+				return Math.abs(x1 - x2) >= Math.abs(y1 - y2) ? x1 - x2 > 0 ? 'Left' : 'Right' : y1 - y2 > 0 ? 'Up' : 'Down';
+			} else {
+				return 'Nochange';
+			}
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.cloneElement(_react2.default.Children.only(this.props.children), {
+				onTouchStart: this._handleTouchStart.bind(this),
+				onTouchMove: this._handleTouchMove.bind(this),
+				onTouchCancel: this._handleTouchCancel.bind(this),
+				onTouchEnd: this._handleTouchEnd.bind(this)
+			});
+		}
+	}]);
+
+	return AlloyFinger;
+}(_react.Component);
+
+exports.default = AlloyFinger;
+
+/***/ }),
+/* 462 */
+/***/ (function(module, exports, __webpack_require__) {
+
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(462);
+var content = __webpack_require__(463);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -52074,7 +52371,7 @@ if(false) {
 }
 
 /***/ }),
-/* 462 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(154)(false);
