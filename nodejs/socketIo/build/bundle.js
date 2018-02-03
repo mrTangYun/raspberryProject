@@ -21703,37 +21703,7 @@ var BasicExample = function BasicExample() {
 	return _react2.default.createElement(
 		_reactRouterDom.BrowserRouter,
 		null,
-		_react2.default.createElement(
-			'div',
-			null,
-			_react2.default.createElement(
-				'ul',
-				null,
-				_react2.default.createElement(
-					'li',
-					null,
-					_react2.default.createElement(
-						_reactRouterDom.Link,
-						{ to: '/' },
-						'Home'
-					)
-				),
-				_react2.default.createElement(
-					'li',
-					null,
-					_react2.default.createElement(
-						_reactRouterDom.Link,
-						{ to: '/lirc' },
-						'Lirc'
-					)
-				)
-			),
-			_react2.default.createElement('hr', null),
-			_react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _lirc2.default }),
-			_react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/lirc', component: AppContainer }),
-			_react2.default.createElement(_reactRouterDom.Route, { path: '/about', component: About }),
-			_react2.default.createElement(_reactRouterDom.Route, { path: '/topics', component: Topics })
-		)
+		_react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _lirc2.default })
 	);
 };
 exports.default = BasicExample;
@@ -48814,7 +48784,7 @@ exports = module.exports = __webpack_require__(154)(false);
 
 
 // module
-exports.push([module.i, ".lirc-outer{\n    background: red;\n    display: flex;\n    flex-direction: column;\n    flex: 1;\n    width: 100%;\n}\n\n.powers{\n    display: flex;\n    flex-direction: row;\n}\n\n.btn_single{\n    width: 5em;\n    height: 5em;\n    border-radius: 50%;\n    background: red;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.backAndHome{\n    display: flex;\n    flex-direction: row;\n}\n.arrowArea{\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n}\n.btn_enter{\n    width: 7em;\n    height: 7em;\n    border-radius: 50%;\n    background: blue;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n}\n\n.arrowArea{\n    width: 20em;\n    height: 20em;\n    border-radius: 50%;\n    background: yellowgreen;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.arrowAreaAndEnder{\n    position: relative;\n}\n\n.AlloyFingerAREA{\n    width: 18em;\n    height: 18em;\n    border-radius: 50%;\n    background: yellowgreen;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n}", ""]);
+exports.push([module.i, ".lirc-outer{\n    display: flex;\n    flex-direction: column;\n    flex: 1;\n    width: 100%;\n}\n\n.powers{\n    display: flex;\n    flex-direction: row;\n}\n\n.btn_single{\n    width: 5em;\n    height: 5em;\n    border-radius: 50%;\n    background: red;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.backAndHome{\n    display: flex;\n    flex-direction: row;\n}\n.arrowArea{\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n}\n.btn_enter{\n    width: 7em;\n    height: 7em;\n    border-radius: 50%;\n    background: blue;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n}\n\n.arrowArea{\n    width: 20em;\n    height: 20em;\n    border-radius: 50%;\n    background: yellowgreen;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.arrowAreaAndEnder{\n    position: relative;\n}\n\n.AlloyFingerAREA{\n    width: 18em;\n    height: 18em;\n    border-radius: 50%;\n    background: yellowgreen;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n}", ""]);
 
 // exports
 

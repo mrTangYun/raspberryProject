@@ -111,19 +111,7 @@ const Topics = ({ match }) => (
 
 const BasicExample = () => (
 	<Router>
-		<div>
-			<ul>
-				<li><Link to="/">Home</Link></li>
-				<li><Link to="/lirc">Lirc</Link></li>
-			</ul>
-
-			<hr/>
-
-			<Route exact path="/" component={LircContainer}/>
-			<Route exact path="/lirc" component={AppContainer}/>
-			<Route path="/about" component={About}/>
-			<Route path="/topics" component={Topics}/>
-		</div>
+		<Route exact path="/" component={LircContainer}/>
 	</Router>
 );
 export default BasicExample;
