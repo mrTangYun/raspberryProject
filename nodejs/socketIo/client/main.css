@@ -1,0 +1,72 @@
+#app{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    flex: 1;
+}
+.buttons{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-switch{
+    width: 5em;
+    height: 5em;
+    border-radius: 50%;
+    background: #333333;
+    /*overflow: hidden;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: #fff;
+    font-size: 2em;
+}
+.btn-switch.on{
+    background: green;
+}
+.btn-switch.off{
+    background: #333333;
+}
+
+.btn-switch:after, .btn-switch:before{
+    content: ' ';
+    position: absolute;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 1s;
+}
+.btn-switch:before{
+    width: calc(5em + 1em);
+    height: calc(5em + 1em);
+    z-index: -1;
+    background: #fff;
+
+}
+.btn-switch:after{
+    z-index: -2;
+}
+
+.btn-switch.off:before{
+
+}
+.btn-switch.off:after{
+    width: calc(5em + 1em + 0.1em);
+    height: calc(5em + 1em + 0.1em);
+    background: #333333;
+}
+.btn-switch.on:before{
+
+}
+.btn-switch.on:after{
+    width: calc(5em + 1em + 0.5em);
+    height: calc(5em + 1em + 0.5em);
+    background: green;
+
+}

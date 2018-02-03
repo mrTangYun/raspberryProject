@@ -1,0 +1,58 @@
+.lirc-outer{
+    background: red;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+}
+
+.powers{
+    display: flex;
+    flex-direction: row;
+}
+
+.btn_single{
+    width: 5em;
+    height: 5em;
+    border-radius: 50%;
+    background: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.backAndHome{
+    display: flex;
+    flex-direction: row;
+}
+.arrowArea{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.btn_enter{
+    width: 7em;
+    height: 7em;
+    border-radius: 50%;
+    background: blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.arrowArea{
+    width: 20em;
+    height: 20em;
+    border-radius: 50%;
+    background: yellowgreen;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.arrowAreaAndEnder{
+    position: relative;
+}

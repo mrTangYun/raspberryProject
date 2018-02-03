@@ -1,7 +1,9 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var rpio = require('rpio');
+const exec = require('child_process').exec;
 
 // rpio.open(7, rpio.OUTPUT);
 
@@ -24,10 +26,44 @@ function get(point) {
 	return rpio.read(point) ? 'high' : 'low';
 }
 
+function handlerPressKey(key) {
+	var cmdStr;
+	switch (key) {
+		case 'power':
+			cmdStr = 'irsend SEND_ONCE HMD KEY_POWER && irsend SEND_ONCE TCL KEY_POWER';
+			break;
+		case 'left':
+			cmdStr = 'irsend SEND_ONCE HMD KEY_LEFT';
+			break;
+		case 'right':
+			cmdStr = 'irsend SEND_ONCE HMD KEY_RIGHT';
+			break;
+		case 'up':
+			cmdStr = 'irsend SEND_ONCE HMD KEY_UP';
+			break;
+		case 'down':
+			cmdStr = 'irsend SEND_ONCE HMD KEY_DOWN';
+			break;
+		case 'back':
+			cmdStr = 'irsend SEND_ONCE HMD KEY_BACK';
+			break;
+		case 'home':
+			cmdStr = 'irsend SEND_ONCE HMD KEY_HOME';
+			break;
+		case 'enter':
+			cmdStr = 'irsend SEND_ONCE HMD KEY_ENTER';
+			break;
+	}
 
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/static/index.html');
-});
+	console.log(cmdStr);
+	cmdStr && exec(cmdStr);
+}
+
+app.use(express.static('build'));
+
+// app.get('/', function(req, res){
+//   res.sendFile(__dirname + '/static/index.html');
+// });
 
 io.on('connection', function(socket){
   console.log('a user connected');
@@ -61,11 +97,19 @@ io.on('connection', function(socket){
       console.log(e)
     }
   });
-
   socket.on('chat message', function(msg){
       console.log('message: ' + msg);
 	  io.emit('chat message', msg);
   });
+  socket.on('KEY_PRESS', function(dataStr) {
+		try {
+			const data = JSON.parse(dataStr);
+			const keyType = data.key_type;
+			handlerPressKey(keyType);
+		} catch (e) {
+			console.log(e)
+		}
+	});
 });
 
 http.listen(8080, function(){
