@@ -91,6 +91,15 @@ export default class LircContainer extends Component {
 					>
 						电源
 					</div>
+						<div
+		className="btn_single"
+		onClick={(e) => {
+			e.preventDefault();
+			this.clickKeyHandler('powerTV');
+		}}
+	>
+		电视
+		</div>
 				</div>
 				<div className="backAndHome">
 					<div

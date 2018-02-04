@@ -10,6 +10,7 @@
 .powers{
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .btn_single{

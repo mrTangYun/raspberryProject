@@ -29,6 +29,9 @@ function get(point) {
 function handlerPressKey(key) {
 	var cmdStr;
 	switch (key) {
+		case 'powerTV':
+			cmdStr = 'irsend SEND_ONCE TCL KEY_POWER';
+			break;
 		case 'power':
 			cmdStr = 'irsend SEND_ONCE HMD KEY_POWER && irsend SEND_ONCE TCL KEY_POWER';
 			break;
