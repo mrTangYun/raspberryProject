@@ -48679,6 +48679,17 @@ var LircContainer = function (_Component) {
 							}
 						},
 						'\u7535\u6E90'
+					),
+					_react2.default.createElement(
+						'div',
+						{
+							className: 'btn_single',
+							onClick: function onClick(e) {
+								e.preventDefault();
+								_this2.clickKeyHandler('powerTV');
+							}
+						},
+						'\u7535\u89C6'
 					)
 				),
 				_react2.default.createElement(
@@ -48775,7 +48786,7 @@ exports = module.exports = __webpack_require__(154)(false);
 
 
 // module
-exports.push([module.i, ".lirc-outer{\n    display: flex;\n    flex-direction: column;\n    flex: 1;\n    width: 100%;\n    height: 100%;\n    justify-content: space-between;\n}\n\n.powers{\n    display: flex;\n    flex-direction: row;\n}\n\n.btn_single{\n    width: 5em;\n    height: 5em;\n    border-radius: 50%;\n    background: red;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.backAndHome{\n    display: flex;\n    flex-direction: row;\n    justify-content: space-around;\n}\n.arrowArea{\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n}\n.btn_enter{\n    width: 7em;\n    height: 7em;\n    border-radius: 50%;\n    background: blue;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n}\n\n.arrowArea{\n    width: 20em;\n    height: 20em;\n    border-radius: 50%;\n    background: yellowgreen;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.arrowAreaAndEnder{\n    position: relative;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n}", ""]);
+exports.push([module.i, ".lirc-outer{\n    display: flex;\n    flex-direction: column;\n    flex: 1;\n    width: 100%;\n    height: 100%;\n    justify-content: space-between;\n}\n\n.powers{\n    display: flex;\n    flex-direction: row;\n    justify-content: space-between;\n}\n\n.btn_single{\n    width: 5em;\n    height: 5em;\n    border-radius: 50%;\n    background: red;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.backAndHome{\n    display: flex;\n    flex-direction: row;\n    justify-content: space-around;\n}\n.arrowArea{\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n}\n.btn_enter{\n    width: 7em;\n    height: 7em;\n    border-radius: 50%;\n    background: blue;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n}\n\n.arrowArea{\n    width: 20em;\n    height: 20em;\n    border-radius: 50%;\n    background: yellowgreen;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.arrowAreaAndEnder{\n    position: relative;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n}", ""]);
 
 // exports
 
