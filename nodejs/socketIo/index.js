@@ -57,7 +57,7 @@ function handlerPressKey(key, socket, io) {
 			cmdStr = 'irsend SEND_ONCE HMD KEY_ENTER';
 			break;
 		case 'camera':
-			cmdStr = 'raspistill -o ./bulid/image.jpg -w 800 -h 600';
+			cmdStr = 'raspistill -o ./build/image.jpg -w 400 -h 300';
 			break;
 	}
 
