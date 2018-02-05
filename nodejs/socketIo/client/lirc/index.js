@@ -76,6 +76,10 @@ export default class LircContainer extends Component {
 	componentDidMount() {
 		this.arrowR = this.arrowArea.clientWidth / 2;
 		this.socket = io('/');
+		this.socket.on('camara', data => {
+			console.log(data);
+			this.thumb.src = data;
+		});
 	}
 
 	render() {
@@ -95,12 +99,26 @@ export default class LircContainer extends Component {
 		className="btn_single"
 		onClick={(e) => {
 			e.preventDefault();
+			this.clickKeyHandler('camera');
+		}}
+	>
+		截图
+		</div>
+						<div
+		className="btn_single"
+		onClick={(e) => {
+			e.preventDefault();
 			this.clickKeyHandler('powerTV');
 		}}
 	>
 		电视
 		</div>
 				</div>
+			<div>
+			<img ref = {node => {
+			this.thumb = node;
+			}} />
+		</div>
 				<div className="backAndHome">
 					<div
 						className="btn_single"

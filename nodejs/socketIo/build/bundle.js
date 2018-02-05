@@ -48655,13 +48655,19 @@ var LircContainer = function (_Component) {
 	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
+			var _this2 = this;
+
 			this.arrowR = this.arrowArea.clientWidth / 2;
 			this.socket = (0, _socket2.default)('/');
+			this.socket.on('camara', function (data) {
+				console.log(data);
+				_this2.thumb.src = data;
+			});
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this2 = this;
+			var _this3 = this;
 
 			return _react2.default.createElement(
 				'div',
@@ -48675,7 +48681,7 @@ var LircContainer = function (_Component) {
 							className: 'btn_single',
 							onClick: function onClick(e) {
 								e.preventDefault();
-								_this2.clickKeyHandler('power');
+								_this3.clickKeyHandler('power');
 							}
 						},
 						'\u7535\u6E90'
@@ -48686,11 +48692,29 @@ var LircContainer = function (_Component) {
 							className: 'btn_single',
 							onClick: function onClick(e) {
 								e.preventDefault();
-								_this2.clickKeyHandler('powerTV');
+								_this3.clickKeyHandler('camera');
+							}
+						},
+						'\u622A\u56FE'
+					),
+					_react2.default.createElement(
+						'div',
+						{
+							className: 'btn_single',
+							onClick: function onClick(e) {
+								e.preventDefault();
+								_this3.clickKeyHandler('powerTV');
 							}
 						},
 						'\u7535\u89C6'
 					)
+				),
+				_react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement('img', { ref: function ref(node) {
+							_this3.thumb = node;
+						} })
 				),
 				_react2.default.createElement(
 					'div',
@@ -48701,7 +48725,7 @@ var LircContainer = function (_Component) {
 							className: 'btn_single',
 							onClick: function onClick(e) {
 								e.preventDefault();
-								_this2.clickKeyHandler('back');
+								_this3.clickKeyHandler('back');
 							}
 						},
 						'\u8FD4\u56DE'
@@ -48712,7 +48736,7 @@ var LircContainer = function (_Component) {
 							className: 'btn_single',
 							onClick: function onClick(e) {
 								e.preventDefault();
-								_this2.clickKeyHandler('home');
+								_this3.clickKeyHandler('home');
 							}
 						},
 						'\u4E3B\u9875'
@@ -48723,7 +48747,7 @@ var LircContainer = function (_Component) {
 					{ className: 'arrowAreaAndEnder' },
 					_react2.default.createElement('div', {
 						ref: function ref(node) {
-							_this2.arrowArea = node;
+							_this3.arrowArea = node;
 						},
 						className: 'arrowArea',
 						onClick: this.clickArrowAreaHandler
@@ -48733,7 +48757,7 @@ var LircContainer = function (_Component) {
 						className: 'btn_enter',
 						onClick: function onClick(e) {
 							e.preventDefault();
-							_this2.clickKeyHandler('enter');
+							_this3.clickKeyHandler('enter');
 						}
 					})
 				)
