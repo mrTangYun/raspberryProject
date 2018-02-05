@@ -117,6 +117,7 @@ io.on('connection', function(socket){
 			const data = JSON.parse(dataStr);
 			const keyType = data.key_type;
 			handlerPressKey(keyType, socket, io);
+			io.emit('camera', 'image.jpg');
 		} catch (e) {
 			console.log(e)
 		}
