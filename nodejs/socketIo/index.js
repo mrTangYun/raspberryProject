@@ -26,8 +26,9 @@ function get(point) {
 	return rpio.read(point) ? 'high' : 'low';
 }
 
-function handlerPressKey(key, socket, io) {
+function handlerPressKey(key, socket) {
 	var cmdStr;
+	const filename = new Date().getTime() + '.jpg';
 	switch (key) {
 		case 'powerTV':
 			cmdStr = 'irsend SEND_ONCE TCL KEY_POWER';
@@ -57,15 +58,14 @@ function handlerPressKey(key, socket, io) {
 			cmdStr = 'irsend SEND_ONCE HMD KEY_ENTER';
 			break;
 		case 'camera':
-			cmdStr = 'raspistill -o ./build/image.jpg -w 400 -h 300';
+			cmdStr = 'raspistill -o ./build/camera/' + filename + ' -w 400 -h 300';
 			break;
 	}
 
 	console.log(cmdStr);
 	cmdStr && exec(cmdStr, function(error, stdout, stderr) {
 		if (key === 'camera') {
-			console.log('camara');
-			io.emit('camera', 'image.jpg');
+			socket.emit('camera', 'camera/' + filename);
 		}
 	});
 }
@@ -116,8 +116,7 @@ io.on('connection', function(socket){
 		try {
 			const data = JSON.parse(dataStr);
 			const keyType = data.key_type;
-			handlerPressKey(keyType, socket, io);
-			io.emit('camera', 'image.jpg');
+			handlerPressKey(keyType, socket);
 		} catch (e) {
 			console.log(e)
 		}
