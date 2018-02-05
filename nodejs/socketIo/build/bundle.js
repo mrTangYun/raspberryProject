@@ -48657,9 +48657,10 @@ var LircContainer = function (_Component) {
 		value: function componentDidMount() {
 			this.arrowR = this.arrowArea.clientWidth / 2;
 			this.socket = (0, _socket2.default)('/');
+			var thumbImg = this.thumb;
 			this.socket && this.socket.on('camera', function (data) {
 				console.log(data);
-				this.thumb.src = data;
+				thumbImg.src = data;
 			});
 		}
 	}, {

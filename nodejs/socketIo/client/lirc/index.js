@@ -76,9 +76,10 @@ export default class LircContainer extends Component {
 	componentDidMount() {
 		this.arrowR = this.arrowArea.clientWidth / 2;
 		this.socket = io('/');
+		const thumbImg = this.thumb;
 		this.socket && this.socket.on('camera', function (data) {
 			console.log(data);
-			this.thumb.src = data;
+			thumbImg.src = data;
 		});
 	}
 
