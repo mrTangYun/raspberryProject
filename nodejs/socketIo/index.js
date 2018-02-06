@@ -5,6 +5,8 @@ const io = require('socket.io')(http);
 const rpio = require('rpio');
 const exec = require('child_process').exec;
 const fs = require("fs");
+const path = require("path");
+
 
 // rpio.open(7, rpio.OUTPUT);
 
@@ -66,11 +68,12 @@ function handlerPressKey(key, socket) {
 	console.log(cmdStr);
 	cmdStr && exec(cmdStr, function(error, stdout, stderr) {
 		if (key === 'camera') {
-            fs.readdir('camera/', (err, files) => {
+            // const fullPath = path.resolve(__dirname) + controllerPath;
+            fs.readdir('./build/camera/', (err, files) => {
             	console.log(files);
-                files.map(item => {
+                files && files.map(item => {
                 	if (item !== filename) {
-                        fs.unlink('camera/' + item, callback);
+                        fs.unlink('./build/camera/' + item, callback);
 					}
 				});
 
