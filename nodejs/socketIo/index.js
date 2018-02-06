@@ -1,9 +1,10 @@
-var express = require('express');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var rpio = require('rpio');
+const express = require('express');
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const rpio = require('rpio');
 const exec = require('child_process').exec;
+const fs = require("fs");
 
 // rpio.open(7, rpio.OUTPUT);
 
@@ -65,6 +66,15 @@ function handlerPressKey(key, socket) {
 	console.log(cmdStr);
 	cmdStr && exec(cmdStr, function(error, stdout, stderr) {
 		if (key === 'camera') {
+            fs.readdir('camera/', (err, files) => {
+            	console.log(files);
+                files.map(item => {
+                	if (item !== filename) {
+                        fs.unlink('camera/' + item, callback);
+					}
+				});
+
+			});
 			socket.emit('camera', 'camera/' + filename);
 		}
 	});
@@ -77,7 +87,7 @@ app.use(express.static('build'));
 // });
 
 io.on('connection', function(socket){
-  console.log('a user connected');
+  // console.log('a user connected');
   socket.on('led-on', function(dataStr) {
 	  try {
 		  const data = JSON.parse(dataStr);
