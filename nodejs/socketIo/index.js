@@ -70,10 +70,10 @@ function handlerPressKey(key, socket) {
 		if (key === 'camera') {
             // const fullPath = path.resolve(__dirname) + controllerPath;
             fs.readdir('./build/camera/', (err, files) => {
-            	console.log(files);
+            	// console.log(files);
                 files && files.map(item => {
                 	if (item !== filename) {
-                        fs.unlink('./build/camera/' + item, callback);
+                        fs.unlink('./build/camera/' + item, () => {});
 					}
 				});
 
