@@ -48613,7 +48613,7 @@ var LircContainer = function (_Component) {
 
 		_this.clickArrowAreaHandler = _this.clickArrowAreaHandler.bind(_this);
 		_this.clickKeyHandler = _this.clickKeyHandler.bind(_this);
-		state = {
+		_this.state = {
 			isPhotoing: false,
 			camaraActionTxt: ''
 		};

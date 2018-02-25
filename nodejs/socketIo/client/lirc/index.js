@@ -32,7 +32,7 @@ export default class LircContainer extends Component {
 		super();
 		this.clickArrowAreaHandler = this.clickArrowAreaHandler.bind(this);
 		this.clickKeyHandler = this.clickKeyHandler.bind(this);
-		state = {
+		this.state = {
 			isPhotoing: false,
             camaraActionTxt: ''
 		};
