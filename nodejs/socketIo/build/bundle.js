@@ -48613,12 +48613,23 @@ var LircContainer = function (_Component) {
 
 		_this.clickArrowAreaHandler = _this.clickArrowAreaHandler.bind(_this);
 		_this.clickKeyHandler = _this.clickKeyHandler.bind(_this);
+		state = {
+			isPhotoing: false,
+			camaraActionTxt: ''
+		};
 		return _this;
 	}
 
 	_createClass(LircContainer, [{
 		key: 'clickKeyHandler',
 		value: function clickKeyHandler(key) {
+			if (key === 'camera') {
+				if (this.state.isPhotoing) return false;
+				this.setState({
+					camaraActionTxt: '开始拍照',
+					isPhotoing: true
+				});
+			}
 			this.socket && this.socket.emit('KEY_PRESS', JSON.stringify({
 				key_type: key
 			}));
@@ -48655,18 +48666,23 @@ var LircContainer = function (_Component) {
 	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
+			var _this2 = this;
+
 			this.arrowR = this.arrowArea.clientWidth / 2;
 			this.socket = (0, _socket2.default)('/');
 			var thumbImg = this.thumb;
 			this.socket && this.socket.on('camera', function (data) {
-				console.log(data);
 				thumbImg.src = data;
+				_this2.setState({
+					camaraActionTxt: data,
+					isPhotoing: false
+				});
 			});
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this2 = this;
+			var _this3 = this;
 
 			return _react2.default.createElement(
 				'div',
@@ -48680,7 +48696,7 @@ var LircContainer = function (_Component) {
 							className: 'btn_single',
 							onClick: function onClick(e) {
 								e.preventDefault();
-								_this2.clickKeyHandler('power');
+								_this3.clickKeyHandler('power');
 							}
 						},
 						'\u7535\u6E90'
@@ -48691,7 +48707,7 @@ var LircContainer = function (_Component) {
 							className: 'btn_single',
 							onClick: function onClick(e) {
 								e.preventDefault();
-								_this2.clickKeyHandler('camera');
+								_this3.clickKeyHandler('camera');
 							}
 						},
 						'\u622A\u56FE'
@@ -48702,7 +48718,7 @@ var LircContainer = function (_Component) {
 							className: 'btn_single',
 							onClick: function onClick(e) {
 								e.preventDefault();
-								_this2.clickKeyHandler('powerTV');
+								_this3.clickKeyHandler('powerTV');
 							}
 						},
 						'\u7535\u89C6'
@@ -48712,8 +48728,13 @@ var LircContainer = function (_Component) {
 					'div',
 					null,
 					_react2.default.createElement('img', { ref: function ref(node) {
-							_this2.thumb = node;
-						} })
+							_this3.thumb = node;
+						}, width: '100%' }),
+					_react2.default.createElement(
+						'span',
+						null,
+						this.state.camaraActionTxt
+					)
 				),
 				_react2.default.createElement(
 					'div',
@@ -48724,7 +48745,7 @@ var LircContainer = function (_Component) {
 							className: 'btn_single',
 							onClick: function onClick(e) {
 								e.preventDefault();
-								_this2.clickKeyHandler('back');
+								_this3.clickKeyHandler('back');
 							}
 						},
 						'\u8FD4\u56DE'
@@ -48735,7 +48756,7 @@ var LircContainer = function (_Component) {
 							className: 'btn_single',
 							onClick: function onClick(e) {
 								e.preventDefault();
-								_this2.clickKeyHandler('home');
+								_this3.clickKeyHandler('home');
 							}
 						},
 						'\u4E3B\u9875'
@@ -48746,7 +48767,7 @@ var LircContainer = function (_Component) {
 					{ className: 'arrowAreaAndEnder' },
 					_react2.default.createElement('div', {
 						ref: function ref(node) {
-							_this2.arrowArea = node;
+							_this3.arrowArea = node;
 						},
 						className: 'arrowArea',
 						onClick: this.clickArrowAreaHandler
@@ -48756,7 +48777,7 @@ var LircContainer = function (_Component) {
 						className: 'btn_enter',
 						onClick: function onClick(e) {
 							e.preventDefault();
-							_this2.clickKeyHandler('enter');
+							_this3.clickKeyHandler('enter');
 						}
 					})
 				)
@@ -48809,7 +48830,7 @@ exports = module.exports = __webpack_require__(154)(false);
 
 
 // module
-exports.push([module.i, ".lirc-outer{\n    display: flex;\n    flex-direction: column;\n    flex: 1;\n    width: 100%;\n    height: 100%;\n    justify-content: space-between;\n}\n\n.powers{\n    display: flex;\n    flex-direction: row;\n    justify-content: space-between;\n}\n\n.btn_single{\n    width: 5em;\n    height: 5em;\n    border-radius: 50%;\n    background: red;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n\n.backAndHome{\n    display: flex;\n    flex-direction: row;\n    justify-content: space-around;\n}\n.arrowArea{\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n}\n.btn_enter{\n    width: 7em;\n    height: 7em;\n    border-radius: 50%;\n    background: blue;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n}\n\n.arrowArea{\n    width: 20em;\n    height: 20em;\n    border-radius: 50%;\n    background: yellowgreen;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.arrowAreaAndEnder{\n    position: relative;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n\n}", ""]);
+exports.push([module.i, ".lirc-outer{\r\n    display: flex;\r\n    flex-direction: column;\r\n    flex: 1;\r\n    width: 100%;\r\n    height: 100%;\r\n    justify-content: space-between;\r\n}\r\n\r\n.powers{\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-between;\r\n}\r\n\r\n.btn_single{\r\n    width: 5em;\r\n    height: 5em;\r\n    border-radius: 50%;\r\n    background: red;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n\r\n.backAndHome{\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-around;\r\n}\r\n.arrowArea{\r\n    display: flex;\r\n    flex-direction: row;\r\n    align-items: center;\r\n}\r\n.btn_enter{\r\n    width: 7em;\r\n    height: 7em;\r\n    border-radius: 50%;\r\n    background: blue;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\r\n}\r\n\r\n.arrowArea{\r\n    width: 20em;\r\n    height: 20em;\r\n    border-radius: 50%;\r\n    background: yellowgreen;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n.arrowAreaAndEnder{\r\n    position: relative;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n\r\n}", ""]);
 
 // exports
 
@@ -52087,7 +52108,7 @@ exports = module.exports = __webpack_require__(154)(false);
 
 
 // module
-exports.push([module.i, "#app{\n    height: 100vh;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.container{\n    flex: 1;\n}\n.buttons{\n\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.btn-switch{\n    width: 5em;\n    height: 5em;\n    border-radius: 50%;\n    background: #333333;\n    /*overflow: hidden;*/\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: relative;\n    color: #fff;\n    font-size: 2em;\n}\n.btn-switch.on{\n    background: green;\n}\n.btn-switch.off{\n    background: #333333;\n}\n\n.btn-switch:after, .btn-switch:before{\n    content: ' ';\n    position: absolute;\n    border-radius: 50%;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    transition: all 1s;\n}\n.btn-switch:before{\n    width: calc(5em + 1em);\n    height: calc(5em + 1em);\n    z-index: -1;\n    background: #fff;\n\n}\n.btn-switch:after{\n    z-index: -2;\n}\n\n.btn-switch.off:before{\n\n}\n.btn-switch.off:after{\n    width: calc(5em + 1em + 0.1em);\n    height: calc(5em + 1em + 0.1em);\n    background: #333333;\n}\n.btn-switch.on:before{\n\n}\n.btn-switch.on:after{\n    width: calc(5em + 1em + 0.5em);\n    height: calc(5em + 1em + 0.5em);\n    background: green;\n\n}", ""]);
+exports.push([module.i, "#app{\r\n    height: 100vh;\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n.container{\r\n    flex: 1;\r\n}\r\n.buttons{\r\n\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n}\r\n.btn-switch{\r\n    width: 5em;\r\n    height: 5em;\r\n    border-radius: 50%;\r\n    background: #333333;\r\n    /*overflow: hidden;*/\r\n    display: flex;\r\n    justify-content: center;\r\n    align-items: center;\r\n    position: relative;\r\n    color: #fff;\r\n    font-size: 2em;\r\n}\r\n.btn-switch.on{\r\n    background: green;\r\n}\r\n.btn-switch.off{\r\n    background: #333333;\r\n}\r\n\r\n.btn-switch:after, .btn-switch:before{\r\n    content: ' ';\r\n    position: absolute;\r\n    border-radius: 50%;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\r\n    transition: all 1s;\r\n}\r\n.btn-switch:before{\r\n    width: calc(5em + 1em);\r\n    height: calc(5em + 1em);\r\n    z-index: -1;\r\n    background: #fff;\r\n\r\n}\r\n.btn-switch:after{\r\n    z-index: -2;\r\n}\r\n\r\n.btn-switch.off:before{\r\n\r\n}\r\n.btn-switch.off:after{\r\n    width: calc(5em + 1em + 0.1em);\r\n    height: calc(5em + 1em + 0.1em);\r\n    background: #333333;\r\n}\r\n.btn-switch.on:before{\r\n\r\n}\r\n.btn-switch.on:after{\r\n    width: calc(5em + 1em + 0.5em);\r\n    height: calc(5em + 1em + 0.5em);\r\n    background: green;\r\n\r\n}", ""]);
 
 // exports
 

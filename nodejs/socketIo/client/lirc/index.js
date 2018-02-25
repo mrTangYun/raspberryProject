@@ -32,9 +32,20 @@ export default class LircContainer extends Component {
 		super();
 		this.clickArrowAreaHandler = this.clickArrowAreaHandler.bind(this);
 		this.clickKeyHandler = this.clickKeyHandler.bind(this);
+		state = {
+			isPhotoing: false,
+            camaraActionTxt: ''
+		};
 	}
 
 	clickKeyHandler(key) {
+		if (key === 'camera') {
+			if (this.state.isPhotoing) return false;
+			this.setState({
+				camaraActionTxt: '开始拍照',
+                isPhotoing: true
+			});
+		}
 		this.socket && this.socket.emit('KEY_PRESS', JSON.stringify({
 			key_type: key
 		}));
@@ -77,9 +88,12 @@ export default class LircContainer extends Component {
 		this.arrowR = this.arrowArea.clientWidth / 2;
 		this.socket = io('/');
 		const thumbImg = this.thumb;
-		this.socket && this.socket.on('camera', function (data) {
-			console.log(data);
+		this.socket && this.socket.on('camera', (data) => {
 			thumbImg.src = data;
+			this.setState({
+                camaraActionTxt: data,
+                isPhotoing: false
+			});
 		});
 	}
 
@@ -114,11 +128,11 @@ export default class LircContainer extends Component {
 	>
 		电视
 		</div>
-				</div>
-			<div>
+				</div><div>
 			<img ref = {node => {
 			this.thumb = node;
-			}} />
+			}} width={'100%'} />
+				<span>{this.state.camaraActionTxt}</span>
 		</div>
 				<div className="backAndHome">
 					<div
