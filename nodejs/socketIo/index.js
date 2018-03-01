@@ -91,7 +91,7 @@ function handlerAngle(angle, socket) {
         }));
         return false;
 	}
-	const _tmpAngle = currentAngle + angle;
+	const _tmpAngle = currentAngle + angle * 1;
     let nextAngle = _tmpAngle > 180 ? 180 : _tmpAngle;
     nextAngle = _tmpAngle < 0 ? 0 : _tmpAngle;
     const diffAngle = nextAngle - currentAngle;
