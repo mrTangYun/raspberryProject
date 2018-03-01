@@ -48726,6 +48726,11 @@ var LircContainer = function (_Component) {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'lirc-outer' },
+				gamaValue && _react2.default.createElement(
+					'span',
+					null,
+					gamaValue
+				),
 				isSupportDeviceOrientationEvent && _react2.default.createElement(
 					'div',
 					{ className: 'powers' },
@@ -48738,8 +48743,7 @@ var LircContainer = function (_Component) {
 								backgroundColor: 'green'
 							} : {}
 						},
-						'\u624B\u673A\u8F6C\u52A8',
-						gamaValue
+						'\u624B\u673A\u8F6C\u52A8'
 					)
 				),
 				_react2.default.createElement(

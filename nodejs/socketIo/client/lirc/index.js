@@ -119,9 +119,9 @@ export default class LircContainer extends Component {
 	}
 
     deviceOrientationHandler(e) {
-		if (this.gama === null) {
-            this.gama = e.gamma;
-			return false;
+            if (this.gama === null) {
+                this.gama = e.gamma;
+                return false;
 		}
         const angle = e.gamma - this.gama;
 		this.setState({
@@ -134,6 +134,11 @@ export default class LircContainer extends Component {
 		return (
 			<div className="lirc-outer">
 				{
+                    gamaValue && (
+                    	<span>{gamaValue}</span>
+					)
+				}
+				{
                     isSupportDeviceOrientationEvent && (
 						<div className="powers">
 							<div
@@ -143,7 +148,7 @@ export default class LircContainer extends Component {
 									backgroundColor: 'green'
 								} : {}}
 							>
-								手机转动{gamaValue}
+								手机转动
 							</div>
 						</div>
 					)
