@@ -33,6 +33,7 @@ export default class LircContainer extends Component {
 		this.clickArrowAreaHandler = this.clickArrowAreaHandler.bind(this);
 		this.clickKeyHandler = this.clickKeyHandler.bind(this);
 		this.toggleDeviceOrientationHandler = this.toggleDeviceOrientationHandler.bind(this);
+		this.deviceOrientationHandler = this.deviceOrientationHandler.bind(this);
 		this.state = {
 			isPhotoing: false,
             camaraActionTxt: '',
@@ -111,6 +112,9 @@ export default class LircContainer extends Component {
 		} else {
             window.removeEventListener('deviceorientation', this.deviceOrientationHandler, false);
             this.gama = null;
+            this.setState({
+                gamaValue: ''
+			});
 		}
 	}
 

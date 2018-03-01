@@ -48613,10 +48613,16 @@ var LircContainer = function (_Component) {
 
 		_this.clickArrowAreaHandler = _this.clickArrowAreaHandler.bind(_this);
 		_this.clickKeyHandler = _this.clickKeyHandler.bind(_this);
+		_this.toggleDeviceOrientationHandler = _this.toggleDeviceOrientationHandler.bind(_this);
+		_this.deviceOrientationHandler = _this.deviceOrientationHandler.bind(_this);
 		_this.state = {
 			isPhotoing: false,
-			camaraActionTxt: ''
+			camaraActionTxt: '',
+			isSupportDeviceOrientationEvent: !!window.DeviceOrientationEvent,
+			isStartingHanderDeviceOrientationEvent: false,
+			gamaValue: ''
 		};
+		_this.gama = null;
 		return _this;
 	}
 
@@ -48630,7 +48636,7 @@ var LircContainer = function (_Component) {
 					isPhotoing: true
 				});
 			}
-			this.socket && this.socket.emit('KEY_PRESS', JSON.stringify({
+			window.socketClient && window.socketClient.emit('KEY_PRESS', JSON.stringify({
 				key_type: key
 			}));
 		}
@@ -48669,9 +48675,9 @@ var LircContainer = function (_Component) {
 			var _this2 = this;
 
 			this.arrowR = this.arrowArea.clientWidth / 2;
-			this.socket = (0, _socket2.default)('/');
+			window.socketClient = window.socketClient || (0, _socket2.default)('/');
 			var thumbImg = this.thumb;
-			this.socket && this.socket.on('camera', function (data) {
+			window.socketClient && window.socketClient.on('camera', function (data) {
 				thumbImg.src = data;
 				_this2.setState({
 					camaraActionTxt: data,
@@ -48680,13 +48686,62 @@ var LircContainer = function (_Component) {
 			});
 		}
 	}, {
+		key: 'toggleDeviceOrientationHandler',
+		value: async function toggleDeviceOrientationHandler() {
+			await this.setState({
+				isStartingHanderDeviceOrientationEvent: !this.state.isStartingHanderDeviceOrientationEvent
+			});
+			if (this.state.isStartingHanderDeviceOrientationEvent) {
+				window.addEventListener('deviceorientation', this.deviceOrientationHandler, false);
+			} else {
+				window.removeEventListener('deviceorientation', this.deviceOrientationHandler, false);
+				this.gama = null;
+				this.setState({
+					gamaValue: ''
+				});
+			}
+		}
+	}, {
+		key: 'deviceOrientationHandler',
+		value: function deviceOrientationHandler(e) {
+			if (this.gama === null) {
+				this.gama = e.gamma;
+				return false;
+			}
+			var angle = e.gamma - this.gama;
+			this.setState({
+				gamaValue: angle
+			});
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var _this3 = this;
 
+			var _state = this.state,
+			    isSupportDeviceOrientationEvent = _state.isSupportDeviceOrientationEvent,
+			    isStartingHanderDeviceOrientationEvent = _state.isStartingHanderDeviceOrientationEvent,
+			    gamaValue = _state.gamaValue;
+
 			return _react2.default.createElement(
 				'div',
 				{ className: 'lirc-outer' },
+				isSupportDeviceOrientationEvent && _react2.default.createElement(
+					'div',
+					{ className: 'powers' },
+					_react2.default.createElement(
+						'div',
+						{
+							className: 'btn_single',
+							onClick: this.toggleDeviceOrientationHandler,
+							style: isStartingHanderDeviceOrientationEvent ? {
+								backgroundColor: 'green'
+							} : {}
+						},
+						'\u624B\u673A\u8F6C\u52A8',
+						gamaValue
+					)
+				),
 				_react2.default.createElement(
 					'div',
 					{ className: 'powers' },
