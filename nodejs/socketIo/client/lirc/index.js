@@ -32,10 +32,15 @@ export default class LircContainer extends Component {
 		super();
 		this.clickArrowAreaHandler = this.clickArrowAreaHandler.bind(this);
 		this.clickKeyHandler = this.clickKeyHandler.bind(this);
+		this.toggleDeviceOrientationHandler = this.toggleDeviceOrientationHandler.bind(this);
 		this.state = {
 			isPhotoing: false,
-            camaraActionTxt: ''
+            camaraActionTxt: '',
+            isSupportDeviceOrientationEvent: !!window.DeviceOrientationEvent,
+			isStartingHanderDeviceOrientationEvent: false,
+			gamaValue: ''
 		};
+		this.gama = null;
 	}
 
 	clickKeyHandler(key) {
@@ -46,7 +51,7 @@ export default class LircContainer extends Component {
                 isPhotoing: true
 			});
 		}
-		this.socket && this.socket.emit('KEY_PRESS', JSON.stringify({
+        window.socketClient && window.socketClient.emit('KEY_PRESS', JSON.stringify({
 			key_type: key
 		}));
 	}
@@ -86,9 +91,9 @@ export default class LircContainer extends Component {
 
 	componentDidMount() {
 		this.arrowR = this.arrowArea.clientWidth / 2;
-		this.socket = io('/');
+		window.socketClient = window.socketClient || io('/');
 		const thumbImg = this.thumb;
-		this.socket && this.socket.on('camera', (data) => {
+        window.socketClient && window.socketClient.on('camera', (data) => {
 			thumbImg.src = data;
 			this.setState({
                 camaraActionTxt: data,
@@ -97,9 +102,48 @@ export default class LircContainer extends Component {
 		});
 	}
 
+    async toggleDeviceOrientationHandler() {
+		await this.setState({
+            isStartingHanderDeviceOrientationEvent: !this.state.isStartingHanderDeviceOrientationEvent
+		});
+		if (this.state.isStartingHanderDeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', this.deviceOrientationHandler, false);
+		} else {
+            window.removeEventListener('deviceorientation', this.deviceOrientationHandler, false);
+            this.gama = null;
+		}
+	}
+
+    deviceOrientationHandler(e) {
+		if (this.gama === null) {
+            this.gama = e.gamma;
+			return false;
+		}
+        const angle = e.gamma - this.gama;
+		this.setState({
+            gamaValue: angle
+		});
+	}
+
 	render() {
+		const {isSupportDeviceOrientationEvent, isStartingHanderDeviceOrientationEvent, gamaValue} = this.state;
 		return (
 			<div className="lirc-outer">
+				{
+                    isSupportDeviceOrientationEvent && (
+						<div className="powers">
+							<div
+								className="btn_single"
+								onClick={this.toggleDeviceOrientationHandler}
+								style={isStartingHanderDeviceOrientationEvent ? {
+									backgroundColor: 'green'
+								} : {}}
+							>
+								手机转动{gamaValue}
+							</div>
+						</div>
+					)
+				}
 				<div className="powers">
 					<div
 						className="btn_single"
