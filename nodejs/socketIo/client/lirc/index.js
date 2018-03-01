@@ -124,6 +124,9 @@ export default class LircContainer extends Component {
                 return false;
 		}
         const angle = e.gamma - this.gama;
+        window.socketClient && window.socketClient.emit('ROTATE', JSON.stringify({
+            angle
+        }));
 		this.setState({
             gamaValue: angle
 		});

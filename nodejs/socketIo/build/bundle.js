@@ -48709,6 +48709,9 @@ var LircContainer = function (_Component) {
 				return false;
 			}
 			var angle = e.gamma - this.gama;
+			window.socketClient && window.socketClient.emit('ROTATE', JSON.stringify({
+				angle: angle
+			}));
 			this.setState({
 				gamaValue: angle
 			});

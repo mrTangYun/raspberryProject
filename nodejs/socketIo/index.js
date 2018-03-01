@@ -7,7 +7,8 @@ const exec = require('child_process').exec;
 const fs = require("fs");
 const path = require("path");
 
-
+let currentAngle = 0;
+let isSg90Free = true;
 // rpio.open(7, rpio.OUTPUT);
 
 function on(point) {
@@ -82,6 +83,37 @@ function handlerPressKey(key, socket) {
 		}
 	});
 }
+function handlerAngle(angle, socket) {
+    // currentAngle =
+	if (!isSg90Free) {
+        socket.emit('sg90', JSON.stringify({
+            status: 'busy'
+        }));
+        return false;
+	}
+	const _tmpAngle = currentAngle + angle;
+    let nextAngle = _tmpAngle > 180 ? 180 : _tmpAngle;
+    nextAngle = _tmpAngle < 0 ? 0 : _tmpAngle;
+    const diffAngle = nextAngle - currentAngle;
+    const time = Math.abs(diffAngle) / 180 * 2;
+    currentAngle = nextAngle;
+    if (diffAngle) {
+        isSg90Free = false;
+        const cmdStr = 'python ./rotate.py ' + nextAngle + ' ' + time;
+        console.log(nextAngle);
+        cmdStr && exec(cmdStr, function(error, stdout, stderr) {
+            isSg90Free = true;
+            socket.emit('sg90', JSON.stringify({
+				status: 'free'
+			}));
+        });
+	} else {
+        isSg90Free = true;
+        socket.emit('sg90', JSON.stringify({
+            status: 'free'
+        }));
+	}
+}
 
 app.use(express.static('build'));
 
@@ -134,6 +166,15 @@ io.on('connection', function(socket){
 			console.log(e)
 		}
 	});
+    socket.on('ROTATE', function(dataStr) {
+        try {
+            const data = JSON.parse(dataStr);
+            const angle = data.angle;
+            handlerAngle(angle, socket);
+        } catch (e) {
+            console.log(e)
+        }
+    });
 });
 
 http.listen(8580, function(){
